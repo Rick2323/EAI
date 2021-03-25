@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-var corpus = require("../../database/corpus");
+var database = require("../../database");
 
 router.get("/", async (req, res) => {
 
@@ -12,7 +12,7 @@ router.post("/", async (req, res) => {
 
     let { label, limit } = req.body;
 
-    var results = await corpus.getDocuments(label, limit);
+    var [results] = await database.getDocuments(label, limit);
 
     res.render('./pages/listCorpus.ejs', { results: results })
     //res.send(results);
@@ -27,7 +27,7 @@ router.post("/detail", async (req, res) => {
 
     let { id } = req.body;
 
-    var results = await corpus.getDocument(id);
+    var [results] = await database.getDocument(id);
 
     res.render('./pages/listCorpusByID.ejs', { results: results })
     //res.send(results);

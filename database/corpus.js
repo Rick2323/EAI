@@ -1,58 +1,19 @@
-const { MongoClient } = require('mongodb');
-var config = require('../config.json');
+module.exports = (connection) => {
+    return {
+        getDocuments: (label, limit) => {
+            let query = `SELECT * FROM Corpus WHERE label LIKE '${label}' ${limit ? `LIMIT ${limit}` : ''} `;
 
+            return connection.query(query);
+        },
+        getDocument: (id) => {
+            let query = `SELECT * FROM Corpus WHERE id = ?`;
 
-function getDocuments(label, limit) {
+            return connection.execute(query, [id]);
+        },
+        getTrainingSet: () => {
+            let query = `SELECT * FROM TrainingSet;`;
 
-    return new Promise((resolve, reject) => {
-
-        MongoClient.connect(config.mongoURI, { useNewUrlParser: true, useUnifiedTopology: true }, function (err, db) {
-
-            if (err) {
-                reject(err)
-                db.close();
-            }
-
-            const corpus = db.db("EAI").collection("Corpus");
-
-            var query = { "label": label };
-            var options = (limit ? { "limit": parseInt(limit) } : {});
-
-            corpus.find(query, options).toArray()
-                .then(results => {
-
-                    resolve(results)
-                    db.close();
-                })
-                .catch(error => console.error(error))
-        });
-    });
+            return connection.query(query);
+        }
+    };
 }
-
-function getDocument(id) {
-
-    return new Promise((resolve, reject) => {
-
-        MongoClient.connect(config.mongoURI, { useNewUrlParser: true, useUnifiedTopology: true }, function (err, db) {
-
-            if (err) {
-                reject(err)
-                db.close();
-            }
-
-            const corpus = db.db("EAI").collection("Corpus");
-
-            var query = { "id": id };
-
-            corpus.find(query).toArray().then(results => {
-
-                resolve(results)
-                db.close();
-            })
-                .catch(error => console.error(error))
-        });
-    });
-}
-
-module.exports.getDocuments = getDocuments;
-module.exports.getDocument = getDocument;
