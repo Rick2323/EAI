@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head'); %>
+</head>
+
+<body>
+
+    <header>
+        <%- include('../partials/header'); %>
+    </header>
+
+    <div class="Mycontainer">
+        <h1>Pre-processamento</h1>
+
+        <form action="preprocessing" method="POST">
+
+            <div class="row">
+                <div class="col-6">
+                    <textarea  class="form-control" placeholder="Texto original" name="original" rows="3"></textarea>
+                </div>
+
+                <div class="col-auto">
+                    <input class="form-control" type="number" placeholder="Nº tuplos" name="n" />
+                </div>
+
+                <div class="col-auto">
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                </div>
+            </div>
+
+        </form>
+
+        <%- include('../partials/preprocessed'); %>
+    </div>
+
+    <footer>
+        <%- include('../partials/footer'); %>
+    </footer>
+</body>
+
+</html>

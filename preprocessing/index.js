@@ -8,9 +8,10 @@ module.exports = async (original, n) => {
     let cleaned = clean(original);
     let stemmed = stemming(cleaned);
     let tokenized = tokenization(stemmed, n);
+    console.log(tokenized)
     return {
         cleaned,
         stemmed,
-        tokenized
+        tokenized : JSON.stringify(tokenized)
     };
 }
