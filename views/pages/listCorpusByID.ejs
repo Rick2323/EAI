@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('../partials/head'); %>
+</head>
+
+<body>
+
+  <header>
+    <%- include('../partials/header'); %>
+  </header>
+
+  <div class="Mycontainer">
+    <h1>Detalhe da Review</h1>
+
+    <form action="detail" method="POST">
+      <div class="row">
+        <div class="col-auto">
+          <input class="form-control" type="number" placeholder="ID" name="id" />
+        </div>
+        
+        <div class="col-auto">
+          <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
+      </div>      
+    </form>
+
+    <%- include('../partials/table'); %>
+  </div>
+
+  <footer>
+    <%- include('../partials/footer'); %>
+  </footer>
+</body>
+
+</html>

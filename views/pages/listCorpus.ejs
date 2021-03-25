@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('../partials/head'); %>
+</head>
+
+<body>
+
+  <header>
+    <%- include('../partials/header'); %>
+  </header>
+
+  <div class="Mycontainer">
+    <h1>Lista de Reviews</h1>
+
+    <form action="corpus" method="POST">
+
+      <div class="row">
+        <div class="col-auto">
+          <select class="form-select" style="width:auto;" name="label">
+            <option value="happy">Happy</option>
+            <option value="not happy">Not happy</option>
+          </select>
+        </div>
+  
+        <div class="col-auto">
+          <input class="form-control" type="number" placeholder="Limit" name="limit" />
+        </div>
+
+        <div class="col-auto">
+          <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
+      </div>    
+        
+    </form>
+
+    <%- include('../partials/table'); %>
+  </div>
+
+  <footer>
+    <%- include('../partials/footer'); %>
+  </footer>
+</body>
+
+</html>
