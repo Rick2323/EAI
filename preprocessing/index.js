@@ -1,6 +1,6 @@
 let clean = require('./clean');
-let stemming = require('./stemming');
 let stopwords = require('./stopwords');
+let stemming = require('./stemming');
 let tokenization = require('./tokenization');
 
 module.exports = async (original, n) => {
@@ -8,7 +8,6 @@ module.exports = async (original, n) => {
     let cleaned = clean(original);
     let stemmed = stemming(cleaned);
     let tokenized = tokenization(stemmed, n);
-    console.log(tokenized)
     return {
         cleaned,
         stemmed,

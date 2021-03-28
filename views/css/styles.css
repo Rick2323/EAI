@@ -6,7 +6,8 @@ body {
     margin: 2em;
 }
 
-.processedText{
+.processedText {
+    word-wrap: break-word;
     background-color: lightgrey;
     border-radius: 10px;
     margin-top: 1em;

@@ -16,7 +16,6 @@ router.post("/", async (req, res) => {
     var [results] = await database.getDocuments(label, limit);
 
     res.render('./pages/listCorpus.ejs', { results })
-    //res.send(results);
 });
 
 router.get("/detail", async (req, res) => {
@@ -31,7 +30,6 @@ router.post("/detail", async (req, res) => {
     var [results] = await database.getDocument(id);
 
     res.render('./pages/listCorpusByID.ejs', { results })
-    //res.send(results);
 });
 
 router.get("/preprocessing", async (req, res) => {
