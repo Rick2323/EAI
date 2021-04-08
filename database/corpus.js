@@ -11,7 +11,13 @@ module.exports = (connection) => {
             return connection.execute(query, [id]);
         },
         getTrainingSet: () => {
-            let query = `SELECT * FROM TrainingSet;`;
+            let query = `SELECT c.id,
+                                c.description,
+                                c.browser,
+                                c.device,
+                                c.label
+                        FROM TrainingSet t
+                        INNER JOIN Corpus c ON t.idCorpus = c.id;`;
 
             return connection.query(query);
         }
