@@ -75,7 +75,7 @@ let idfVector = (bow, docBoWs) => {
 let tfidfVector = (bow, docBoWs) => {
 
     docBoWs.map(docBow => docBow.map(term => {
-        term.tfidf = Math.round((term.tf * term.idf + Number.EPSILON) * 100) / 100;
+        term.tfidf = Math.round((term.tf * term.idf + Number.EPSILON) * 10000) / 10000;
         return term;
     }));
 
@@ -87,11 +87,22 @@ let sumVector = (terms) => {
     term.name = terms[0].name;
     term.binary = terms.map(term => term.binary).reduce((acc, curr) => acc * curr);
     term.occurences = terms.map(term => term.occurences).reduce((acc, curr) => acc + curr);
-    term.tf = Math.round(terms.map(term => term.tf).reduce((acc, curr) => acc + curr) * 100)/100;
+    term.tf = Math.round(terms.map(term => term.tf).reduce((acc, curr) => acc + curr) * 100) / 100;
     term.idf = terms[0].idf;
-    term.tfidf = Math.round((term.tf * term.idf) * 100) / 100;
+    term.tfidf = Math.round((term.tf * term.idf) * 10000) / 10000;
     return term;
 };
+
+let avgVector = (terms) => {
+    let avg = {};
+    avg.name = terms[0].name;
+    avg.binary = Math.round(terms.map(term => term.binary).reduce((acc, curr) => acc * curr) * 100 / terms.length) / 100;
+    avg.occurences = Math.round(terms.map(term => term.occurences).reduce((acc, curr) => acc + curr) * 100 / terms.length) / 100;
+    avg.tf = Math.round(terms.map(term => term.tf).reduce((acc, curr) => acc + curr) * 100 / terms.length) / 100;
+    avg.idf = terms[0].idf;
+    avg.tfidf = Math.round((avg.tf * avg.idf) * 10000) / 10000;
+    return avg;
+}
 
 
 module.exports.addUniqueTerms = addUniqueTerms;
@@ -101,3 +112,4 @@ module.exports.tfVector = tfVector;
 module.exports.idfVector = idfVector;
 module.exports.tfidfVector = tfidfVector;
 module.exports.sumVector = sumVector;
+module.exports.avgVector = avgVector;

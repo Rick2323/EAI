@@ -55,35 +55,32 @@ let process = async () => {
     }
 
     classes = calculate(classes);
-    
+
 
     fs.writeFileSync(`${__dirname}\\training-process.txt`, JSON.stringify(classes, null, 4));
 };
 
 let calculate = (classes) => {
     for (let prop in classes) {
+        let results = {}, bows = {};
+        for (let i = 1; i < 3; i++) {
 
-        let results = {
-            n1: [],
-            n2: []
-        };
-        let bows = {
-            n1: [],
-            n2: []
-        };
+            results['n' + i] = [];
+            bows['n' + i] = {};
 
-        for (let index = 0; index < classes[prop].elements.length; index++) {
-            for (let i = 1; i < 3; i++) {
+            for (let index = 0; index < classes[prop].elements.length; index++) {
+
 
                 let element = classes[prop].elements[index];
                 let nTerms = classes[prop]['n' + i + 'Terms'];
 
                 // Mapeamento
                 let docTerms = mapTerms(JSON.parse(element['n' + i]), element.docID);
-                bows['n' + i] = mapTerms(nTerms, 0);
+                bows['n' + i].sum = mapTerms(nTerms, 0);
+                bows['n' + i].avg = mapTerms(nTerms, 0);
 
                 // Calculos
-                let docBoW = bows['n' + i].map(e => {
+                let docBoW = bows['n' + i].sum.map(e => {
                     let elem = Object.assign({}, e);
                     elem.docID = element.docID;
                     return elem;
@@ -95,23 +92,27 @@ let calculate = (classes) => {
 
                 results['n' + i].push(docBoW);
             }
-        }
 
-        for (let i = 1; i < 3; i++) {
             let docBoWs = results['n' + i];
-            let bow = bows['n' + i];
+            let bow = bows['n' + i].sum;
 
             bow = bagOfWords.idfVector(bow, docBoWs);
             bow = bagOfWords.tfidfVector(bow, docBoWs);
 
-            bows['n' + i] = bow.map(term => {
+            bows['n' + i].sum = bow.map(term => {
                 let filtered = docBoWs.map(docBoW => docBoW.find(t => t.name === term.name));
                 term = bagOfWords.sumVector(filtered);
                 return term;
             });
-        }
 
-        classes[prop].bows = bows;
+            bows['n' + i].avg = bow.map(term => {
+                let filtered = docBoWs.map(docBoW => docBoW.find(t => t.name === term.name));
+                term = bagOfWords.avgVector(filtered);
+                return term;
+            });
+
+            classes[prop].bows = bows;
+        }
     }
 
     return classes;
