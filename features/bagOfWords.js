@@ -33,7 +33,7 @@ let numberOfOccurrencesVector = (bow, terms) => {
     let arr = bow;
     for (let i = 0; i < bow.length; i++) {
         let count = terms.filter(t => t.name === bow[i].name).length;
-        arr[i].occurences = count;
+        arr[i].occurrences = count;
     }
     return arr;
 }
@@ -55,7 +55,7 @@ let idfVector = (bow, docBoWs) => {
     let n = docBoWs.length;
     for (let i = 0; i < bow.length; i++) {
         let term = bow[i];
-        let filteredDocBoWs = docBoWs.filter(docBoW => docBoW.some(t => t.name === term.name && t.occurences > 0));
+        let filteredDocBoWs = docBoWs.filter(docBoW => docBoW.some(t => t.name === term.name && t.occurrences > 0));
 
         let dt = filteredDocBoWs.length;
         let idf = Math.round(((Math.log10(n / dt)) + Number.EPSILON) * 100) / 100;
@@ -86,7 +86,7 @@ let sumVector = (terms) => {
     let term = {};
     term.name = terms[0].name;
     term.binary = terms.map(term => term.binary).reduce((acc, curr) => acc * curr);
-    term.occurences = terms.map(term => term.occurences).reduce((acc, curr) => acc + curr);
+    term.occurrences = terms.map(term => term.occurrences).reduce((acc, curr) => acc + curr);
     term.tf = Math.round(terms.map(term => term.tf).reduce((acc, curr) => acc + curr) * 100) / 100;
     term.idf = terms[0].idf;
     term.tfidf = Math.round((term.tf * term.idf) * 10000) / 10000;
@@ -97,7 +97,7 @@ let avgVector = (terms) => {
     let avg = {};
     avg.name = terms[0].name;
     avg.binary = Math.round(terms.map(term => term.binary).reduce((acc, curr) => acc * curr) * 100 / terms.length) / 100;
-    avg.occurences = Math.round(terms.map(term => term.occurences).reduce((acc, curr) => acc + curr) * 100 / terms.length) / 100;
+    avg.occurrences = Math.round(terms.map(term => term.occurrences).reduce((acc, curr) => acc + curr) * 100 / terms.length) / 100;
     avg.tf = Math.round(terms.map(term => term.tf).reduce((acc, curr) => acc + curr) * 100 / terms.length) / 100;
     avg.idf = terms[0].idf;
     avg.tfidf = Math.round((avg.tf * avg.idf) * 10000) / 10000;

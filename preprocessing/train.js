@@ -3,6 +3,7 @@ let database = require('../database');
 let preprocessing = require('./index');
 let counting = require('./counting');
 let bagOfWords = require('../features/bagOfWords');
+let featureSelection = require('../features/featureSelection');
 
 let process = async () => {
     let [result] = await database.getTrainingSet();
@@ -55,10 +56,36 @@ let process = async () => {
     }
 
     classes = calculate(classes);
-
+    classes = KBest(classes);
 
     fs.writeFileSync(`${__dirname}\\training-process.txt`, JSON.stringify(classes, null, 4));
 };
+
+let KBest = (classes) => {
+
+    const k = 4
+
+    for (let prop in classes) {
+
+        let KBest = {}
+
+        for (let i = 1; i < 3; i++) {
+
+            var sum = classes[prop].bows['n' + i].sum
+
+            KBest['n' + i] = {
+                "binary": featureSelection.selectKBest(sum, k, "binary"),
+                "occurrences": featureSelection.selectKBest(sum, k, "occurrences"),
+                "tf": featureSelection.selectKBest(sum, k, "tf"),
+                "tfidf": featureSelection.selectKBest(sum, k, "tfidf")
+            }
+        }
+
+        classes[prop].KBest = KBest;
+    }
+
+    return classes;
+}
 
 let calculate = (classes) => {
     for (let prop in classes) {
@@ -124,7 +151,7 @@ let mapTerms = (tokenized, docID) => {
             docID,
             name: arr.sort().join(' '),
             binary: 0,
-            occurences: 0,
+            occurrences: 0,
             tf: 0,
             idf: 0,
             tfidf: 0
