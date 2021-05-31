@@ -58,6 +58,7 @@ let process = async () => {
     classes = calculate(classes);
     classes = KBest(classes);
 
+    let [insertTrainingResults] = await database.insertTrainingResults(classes);
     fs.writeFileSync(`${__dirname}\\training-process.txt`, JSON.stringify(classes, null, 4));
 };
 
