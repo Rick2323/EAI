@@ -17,13 +17,13 @@
     <form action="detail" method="POST">
       <div class="row">
         <div class="col-auto">
-          <input class="form-control" type="number" placeholder="ID" name="id" />
+          <input class="form-control" type="number" min="1" placeholder="ID" name="id" />
         </div>
-        
+
         <div class="col-auto">
           <button class="btn btn-primary" type="submit">Submit</button>
         </div>
-      </div>      
+      </div>
     </form>
 
     <%- include('../partials/table'); %>

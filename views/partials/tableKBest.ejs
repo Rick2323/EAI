@@ -1,0 +1,47 @@
+<div>
+  <table style="margin-top: 2em;" data-toggle="table" data-show-columns="true" data-show-columns-toggle-all="true"
+    data-pagination="true" data-search="true">
+    <thead>
+      <tr>
+        <th data-sortable="true">Label</th>
+        <th data-sortable="true">Metric</th>
+        <th data-sortable="true">ngram</th>
+        <th data-sortable="true">Term</th>
+        <th data-sortable="true">Binary</th>
+        <th data-sortable="true">Occurrences</th>
+        <th data-sortable="true">tf</th>
+        <th data-sortable="true">tfidf</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for(var i=0; i < 50; i++) {%>
+        <tr>
+          <td><%= (i % 2 == 0 ? "Hapyy" : "Not Happy") %></td>
+          <td><%= (i % 2 == 0 ? "Binary" : "Occurrences") %></td>
+          <td>1</td>
+          <td>Bosta <%= i %>
+          </td>
+          <td>
+            <%= i+1 %>
+          </td>
+          <td>
+            <%= i+2 %>
+          </td>
+          <td>
+            <%= i+3 %>
+          </td>
+          <td>
+            <%= i+4 %>
+          </td>
+        </tr>
+        <% } %>
+    </tbody>
+  </table>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
+</div>

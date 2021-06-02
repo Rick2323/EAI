@@ -12,30 +12,27 @@
   </header>
 
   <div class="myContainer">
-    <h1>Lista de Reviews</h1>
+    <h1>Lista de KBest</h1>
 
-    <form action="corpus" method="POST">
-
+    <form action="todo" method="POST">
       <div class="row">
+
         <div class="col-auto">
-          <select class="form-select" style="width:auto;" name="label">
-            <option value="happy">Happy</option>
-            <option value="not happy">Not happy</option>
-          </select>
+          <input class="form-control" type="number" min="1" placeholder="K unigram" name="limit" />
         </div>
 
         <div class="col-auto">
-          <input class="form-control" type="number" min="1" placeholder="Limit" name="limit" />
+          <input class="form-control" type="number" min="1" placeholder="K bigram" name="limit" />
         </div>
 
         <div class="col-auto">
           <button class="btn btn-primary" type="submit">Submit</button>
         </div>
-      </div>
 
+      </div>
     </form>
 
-    <%- include('../partials/table'); %>
+    <%- include('../partials/tableKBest'); %>
   </div>
 
   <footer>

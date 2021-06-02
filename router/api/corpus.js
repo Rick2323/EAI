@@ -46,4 +46,9 @@ router.post("/preprocessing", async (req, res) => {
     res.render('./pages/preprocessing.ejs', { results })
 });
 
+router.get("/KBest", async (req, res) => {
+
+    res.render('./pages/listKBest.ejs', { results: "" })
+});
+
 module.exports = router;
