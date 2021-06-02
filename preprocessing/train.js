@@ -64,6 +64,26 @@ let process = async () => {
     fs.writeFileSync(`${__dirname}\\training-process.txt`, JSON.stringify(classes, null, 4));
 };
 
+let writeTopKBestToFile = async () => {
+    let labels = ["happy", "not happy"];
+    let ngrams = [1, 2];
+    let results = {};
+    let limit = 50;
+
+    for (let label of labels) {
+        for (let ngram of ngrams) {
+            let [tfIdf] = await database.getKBest(ngram, 'tfidf', label, limit);
+            results[label] = Object.assign({}, results[label], {
+                ['n' + ngram]: {
+                    tfidf: tfIdf.sort((a, b) => a.position > b.position)
+                }
+            });
+        };
+    }
+
+    fs.writeFileSync(`${__dirname}\\kbest.json`, JSON.stringify(results, null, 4));
+}
+
 let insertTrainingResults = async (classes) => {
     await database.deleteTrainingResults();
 
@@ -222,4 +242,9 @@ let mapTerms = (tokenized, docID) => {
     });
 };
 
-process();
+let run = async () => {
+    await process();
+    await writeTopKBestToFile();
+};
+
+run();
