@@ -47,7 +47,6 @@ router.post("/preprocessing", async (req, res) => {
 });
 
 router.get("/KBest", async (req, res) => {
-
     res.render('./pages/listKBest.ejs', { results: "" })
 });
 
@@ -55,9 +54,35 @@ router.post("/KBest", async (req, res) => {
 
     let { kUnigram, nKBigram } = req.body;
 
-    var results = await preprocessing(original, n); // mudar
+    let results = {
+        'happy': {},
+        'not happy': {}
+    };
 
-    res.render('./pages/listKBest.ejs', { results })
+    for (let label in results) {
+        let [uniBinary] = await database.getKBest(1, 'binaryValue', label, kUnigram);
+        let [uniOccurrences] = await database.getKBest(1, 'ocurrences', label, kUnigram);
+        let [uniTf] = await database.getKBest(1, 'tf', label, kUnigram);
+        let [uniTfIdf] = await database.getKBest(1, 'tfidf', label, kUnigram);
+
+        let [biBinary] = await database.getKBest(2, 'binaryValue', label, nKBigram);
+        let [biOccurrences] = await database.getKBest(2, 'ocurrences', label, nKBigram);
+        let [biTf] = await database.getKBest(2, 'tf', label, nKBigram);
+        let [biTfIdf] = await database.getKBest(2, 'tfidf', label, nKBigram);
+
+        results[label] = {
+            uniBinary,
+            uniOccurrences,
+            uniTf,
+            uniTfIdf,
+            biBinary,
+            biOccurrences,
+            biTf,
+            biTfIdf
+        };
+    }
+
+    res.render('./pages/listKBest.ejs', { results });
 });
 
 module.exports = router;

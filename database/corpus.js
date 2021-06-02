@@ -50,17 +50,35 @@ module.exports = (connection) => {
             let query = 'INSERT INTO KBest(term, binaryValue , occurrences , tf , idf , tfidf , metric , ngram , label)' +
                 'VALUES (?,?,?,?,?,?,?,?,?);';
 
-                return connection.execute(query, [
-                    kbest.name,
-                    kbest.binary,
-                    kbest.occurrences,
-                    kbest.tf,
-                    kbest.idf,
-                    kbest.tfidf,
+            return connection.execute(query, [
+                kbest.name,
+                kbest.binary,
+                kbest.occurrences,
+                kbest.tf,
+                kbest.idf,
+                kbest.tfidf,
+                metric,
+                ngram,
+                label
+            ]);
+        },
+        getKBest: (ngram, metric, label, k) => {
+            let query = `SELECT 
+                    id,
+                    term,
+                    binaryValue,
+                    tf,
+                    idf,
+                    tfidf,
                     metric,
                     ngram,
-                    label
-                ]);
+                    label,
+                    RANK() OVER(ORDER BY ? DESC) position
+                FROM KBest
+                WHERE ngram = ? AND metric LIKE '?' AND label '?';
+                LIMIT ?`;
+
+            return query.execute(query, [metric, ngram, metric, label, k]);
         }
     };
 }
