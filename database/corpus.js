@@ -57,7 +57,7 @@ module.exports = (connection) => {
             for (let label in classes) {
                 let bows = classes[label]['bows'];
                 for (let ngrams in bows) {
-                    let ngram = parseInt(ngram.replace(/^\D+/g, '')); // Regex que remove tudo menos numeros
+                    let ngram = parseInt(ngrams.replace(/^\D+/g, '')); // Regex que remove tudo menos numeros
                     for (let metric in bows[ngrams]) {
                         let arr = bows[ngrams][metric];
                         query += arr.map(bow => `\n(${bow.name},${bow.binary},${bow.occurrences},
