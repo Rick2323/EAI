@@ -48,6 +48,10 @@ router.post("/preprocessing", async (req, res) => {
 
 router.get("/KBest", async (req, res) => {
 
+    let {limit} = req.body;
+
+    let [results] = await database.getKBest(limit);
+
     res.render('./pages/listKBest.ejs', { results: "" })
 });
 

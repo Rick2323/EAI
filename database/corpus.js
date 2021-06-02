@@ -61,6 +61,9 @@ module.exports = (connection) => {
                     ngram,
                     label
                 ]);
+        },
+        getKBest: (limit) => {
+            let query = 'SELECT * FROM KBest WHERE ';
         }
     };
 }
