@@ -43,6 +43,9 @@ module.exports = (connection) => {
             return connection.query(query, [bulk]);
         },
         getKBest: (ngram, metric, label, k) => {
+            let rankingMetric = metric;
+            if(metric === 'binaryValue') metric = 'binary'
+
             let query = `SELECT 
                     id,
                     term,
@@ -53,12 +56,12 @@ module.exports = (connection) => {
                     metric,
                     ngram,
                     label,
-                    RANK() OVER(ORDER BY ? DESC) position
+                    RANK() OVER(ORDER BY ${rankingMetric} DESC) position
                 FROM KBest
                 WHERE ngram = ? AND metric LIKE ? AND label LIKE ?
                 LIMIT ?`;
 
-            return connection.query(query, [metric, ngram, metric, label, k]);
+            return connection.query(query, [ngram, metric, label, k]);
         }
     };
 }
