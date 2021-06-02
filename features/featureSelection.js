@@ -10,7 +10,7 @@
 
 
 
-var selectKBest = (terms, k, metric) => {
+var selectKBest = (terms, metric) => {
 
     metrics = ["binary", "occurrences", "tf", "tfidf"]
 
@@ -19,8 +19,6 @@ var selectKBest = (terms, k, metric) => {
         let aux = terms.slice();
 
         aux.sort((a, b) => compare(a[metric], b[metric]));
-
-        aux.length = k;
 
         return aux;
     }

@@ -58,15 +58,46 @@ let process = async () => {
     classes = calculate(classes);
     classes = KBest(classes);
 
-    let [insertTrainingResults] = await database.insertTrainingResults(classes);
-    let [insertKBest] = await database.insertKBestResults(classes);
+    insertTrainingResults(classes);
+    insertKBestResults(classes);
+
     fs.writeFileSync(`${__dirname}\\training-process.txt`, JSON.stringify(classes, null, 4));
 };
 
+let insertTrainingResults = async (classes) => {
+    await database.deleteTrainingResults();
+
+    for (let label in classes) {
+        let bows = classes[label]['bows'];
+        for (let ngrams in bows) {
+            let ngram = parseInt(ngrams.replace(/^\D+/g, '')); // Regex que remove tudo menos numeros
+            for (let metric in bows[ngrams]) {
+                let arr = bows[ngrams][metric];
+                for (let bow of arr) {
+                    let [insertTrainingResults] = await database.insertTrainingResults(bow, metric, ngram, label);
+                }
+            }
+        }
+    }
+};
+
+let insertKBestResults = async (classes) => {
+    await database.deleteKBestResults();
+    for (let label in classes) {
+        let kbest = classes[label]['KBest'];
+        for (let ngrams in kbest) {
+            let ngram = parseInt(ngrams.replace(/^\D+/g, '')); // Regex que remove tudo menos numeros
+            for (let metric in kbest[ngrams]) {
+                let arr = kbest[ngrams][metric];
+                for (let bow of arr) {
+                    let [insertKBestResults] = await database.insertKBestResults(bow, metric, ngram, label);
+                }
+            }
+        }
+    }
+};
+
 let KBest = (classes) => {
-
-    const k = 4
-
     for (let prop in classes) {
 
         let KBest = {}
@@ -76,10 +107,10 @@ let KBest = (classes) => {
             var sum = classes[prop].bows['n' + i].sum
 
             KBest['n' + i] = {
-                "binary": featureSelection.selectKBest(sum, k, "binary"),
-                "occurrences": featureSelection.selectKBest(sum, k, "occurrences"),
-                "tf": featureSelection.selectKBest(sum, k, "tf"),
-                "tfidf": featureSelection.selectKBest(sum, k, "tfidf")
+                "binary": featureSelection.selectKBest(sum, "binary"),
+                "occurrences": featureSelection.selectKBest(sum, "occurrences"),
+                "tf": featureSelection.selectKBest(sum, "tf"),
+                "tfidf": featureSelection.selectKBest(sum, "tfidf")
             }
         }
 
@@ -87,7 +118,7 @@ let KBest = (classes) => {
     }
 
     return classes;
-}
+};
 
 let calculate = (classes) => {
     for (let prop in classes) {
@@ -145,7 +176,7 @@ let calculate = (classes) => {
     }
 
     return classes;
-}
+};
 
 let mapTerms = (tokenized, docID) => {
     return tokenized.map(arr => {
@@ -159,6 +190,6 @@ let mapTerms = (tokenized, docID) => {
             tfidf: 0
         };
     });
-}
+};
 
 process();
