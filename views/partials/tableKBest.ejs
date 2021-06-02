@@ -1,12 +1,28 @@
 <div>
-  <table style="margin-top: 2em;" data-toggle="table" data-show-columns="true" data-show-columns-toggle-all="true"
-    data-pagination="true" data-search="true">
+  <!--Scripts Bootstrap-->
+  <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+          integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+          crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
+
+  <link href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css" rel="stylesheet">
+
+  <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
+  <script
+          src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
+  <!--Scripts Bootstrap-->
+
+  <table id="tableKBest" data-filter-control="true" data-show-search-clear-button="true" style="margin-top: 2em;"
+         data-toggle="table" data-show-columns="true" data-show-columns-toggle-all="true" data-pagination="true"
+         data-search="true">
     <thead>
       <tr>
-        <th data-sortable="true">Label</th>
-        <th data-sortable="true">Metric</th>
-        <th data-sortable="true">ngram</th>
-        <th data-sortable="true">Term</th>
+        <th data-field="Label" data-filter-control="select">Label</th>
+        <th data-field="Metric" data-filter-control="select">Metric</th>
+        <th data-field="ngram" data-filter-control="select">ngram</th>
+        <th>Term</th>
         <th data-sortable="true">Binary</th>
         <th data-sortable="true">Occurrences</th>
         <th data-sortable="true">tf</th>
@@ -16,10 +32,17 @@
     <tbody>
       <% for(var i=0; i < 50; i++) {%>
         <tr>
-          <td><%= (i % 2 == 0 ? "Hapyy" : "Not Happy") %></td>
-          <td><%= (i % 2 == 0 ? "Binary" : "Occurrences") %></td>
-          <td>1</td>
-          <td>Bosta <%= i %>
+          <td>
+            <%= (Math.floor(Math.random() * 2) + 1==1 ? "Hapyy" : "Not Happy" ) %>
+          </td>
+          <td>
+            <%= (Math.floor(Math.random() * 2) + 1==1 ? "Binary" : "Occurrences" ) %>
+          </td>
+          <td>
+            <%= (Math.floor(Math.random() * 2) + 1==1 ? "1" : "2" ) %>
+          </td>
+          <td>
+            <%= "Bosta " .repeat((Math.floor(Math.random() * 100) + 10)) %>
           </td>
           <td>
             <%= i+1 %>
@@ -38,10 +61,9 @@
     </tbody>
   </table>
 
-  <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-    crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
+  <script>
+    $(function () {
+      $('#tableKBest').bootstrapTable()
+    })
+  </script>
 </div>
