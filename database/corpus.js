@@ -26,41 +26,21 @@ module.exports = (connection) => {
 
             return connection.query(query);
         },
-        insertTrainingResults: (bow, metric, ngram, label) => {
+        insertTrainingResults: (bulk) => {
             let query = 'INSERT INTO BagOfWords(term, binaryValue , occurrences , tf , idf , tfidf , metric , ngram , label)' +
-                'VALUES (?,?,?,?,?,?,?,?,?);';
+                'VALUES ?';
 
-            return connection.execute(query, [
-                bow.name,
-                bow.binary,
-                bow.occurrences,
-                bow.tf,
-                bow.idf,
-                bow.tfidf,
-                metric,
-                ngram,
-                label
-            ]);
+            return connection.query(query, [bulk]);
         },
         deleteKBestResults: () => {
             let query = 'DELETE FROM KBest WHERE true;'
             return connection.query(query);
         },
-        insertKBestResults: (kbest, metric, ngram, label) => {
+        insertKBestResults: (bulk) => {
             let query = 'INSERT INTO KBest(term, binaryValue , occurrences , tf , idf , tfidf , metric , ngram , label)' +
-                'VALUES (?,?,?,?,?,?,?,?,?);';
+                'VALUES ?';
 
-            return connection.execute(query, [
-                kbest.name,
-                kbest.binary,
-                kbest.occurrences,
-                kbest.tf,
-                kbest.idf,
-                kbest.tfidf,
-                metric,
-                ngram,
-                label
-            ]);
+            return connection.query(query, [bulk]);
         },
         getKBest: (ngram, metric, label, k) => {
             let query = `SELECT 

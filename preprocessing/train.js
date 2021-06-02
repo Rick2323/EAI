@@ -22,7 +22,7 @@ let process = async () => {
         })
     };
 
-    classes['notHappy'] = {
+    classes['not happy'] = {
         elements: nHappy.map(e => {
             return {
                 docID: e.id,
@@ -67,6 +67,8 @@ let process = async () => {
 let insertTrainingResults = async (classes) => {
     await database.deleteTrainingResults();
 
+    let bulk = [];
+
     for (let label in classes) {
         let bows = classes[label]['bows'];
         for (let ngrams in bows) {
@@ -74,27 +76,55 @@ let insertTrainingResults = async (classes) => {
             for (let metric in bows[ngrams]) {
                 let arr = bows[ngrams][metric];
                 for (let bow of arr) {
-                    let [insertTrainingResults] = await database.insertTrainingResults(bow, metric, ngram, label);
+                    bulk.push([
+                        bow.name,
+                        bow.binary,
+                        bow.occurrences,
+                        bow.tf,
+                        bow.idf,
+                        bow.tfidf,
+                        metric,
+                        ngram,
+                        label
+                    ]);
                 }
             }
         }
     }
+
+    let [insertTrainingResults] = await database.insertTrainingResults(bulk);
 };
 
 let insertKBestResults = async (classes) => {
     await database.deleteKBestResults();
+
+    let bulk = [];
+
     for (let label in classes) {
-        let kbest = classes[label]['KBest'];
-        for (let ngrams in kbest) {
+        let kbests = classes[label]['KBest'];
+        for (let ngrams in kbests) {
             let ngram = parseInt(ngrams.replace(/^\D+/g, '')); // Regex que remove tudo menos numeros
-            for (let metric in kbest[ngrams]) {
-                let arr = kbest[ngrams][metric];
-                for (let bow of arr) {
-                    let [insertKBestResults] = await database.insertKBestResults(bow, metric, ngram, label);
+            for (let metric in kbests[ngrams]) {
+                let arr = kbests[ngrams][metric];
+                for (let kbest of arr) {
+                    // let [insertKBestResults] = await database.insertKBestResults(bow, metric, ngram, label);
+                    bulk.push([
+                        kbest.name,
+                        kbest.binary,
+                        kbest.occurrences,
+                        kbest.tf,
+                        kbest.idf,
+                        kbest.tfidf,
+                        metric,
+                        ngram,
+                        label
+                    ]);
                 }
             }
         }
     }
+
+    let [insertKBestResults] = await database.insertKBestResults(bulk);
 };
 
 let KBest = (classes) => {
