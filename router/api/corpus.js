@@ -51,4 +51,13 @@ router.get("/KBest", async (req, res) => {
     res.render('./pages/listKBest.ejs', { results: "" })
 });
 
+router.post("/KBest", async (req, res) => {
+
+    let { kUnigram, nKBigram } = req.body;
+
+    var results = await preprocessing(original, n); // mudar
+
+    res.render('./pages/listKBest.ejs', { results })
+});
+
 module.exports = router;
