@@ -23,6 +23,7 @@
         <th data-field="Metric" data-filter-control="select">Metric</th>
         <th data-field="ngram" data-filter-control="select">ngram</th>
         <th>Term</th>
+        <th data-sortable="true">Position</th>
         <th data-sortable="true">Binary</th>
         <th data-sortable="true">Occurrences</th>
         <th data-sortable="true">tf</th>
@@ -43,6 +44,9 @@
           </td>
           <td>
             <%= "Bosta " .repeat((Math.floor(Math.random() * 100) + 10)) %>
+          </td>
+          <td>
+            <%= i %>
           </td>
           <td>
             <%= i+1 %>
