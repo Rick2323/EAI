@@ -52,7 +52,10 @@ router.get("/KBest", async (req, res) => {
 
 router.post("/KBest", async (req, res) => {
 
-    let { kUnigram, nKBigram } = req.body;
+    let { kUnigram, KBigram } = req.body;
+
+    console.log(typeof kUnigram)
+    console.log(typeof KBigram)
 
     let labels = ["happy", "not happy"]
     let results = [];
@@ -63,10 +66,10 @@ router.post("/KBest", async (req, res) => {
         let [uniTf] = await database.getKBest(1, 'tf', label, kUnigram);
         let [uniTfIdf] = await database.getKBest(1, 'tfidf', label, kUnigram);
 
-        let [biBinary] = await database.getKBest(2, 'binaryValue', label, nKBigram);
-        let [biOccurrences] = await database.getKBest(2, 'ocurrences', label, nKBigram);
-        let [biTf] = await database.getKBest(2, 'tf', label, nKBigram);
-        let [biTfIdf] = await database.getKBest(2, 'tfidf', label, nKBigram);
+        let [biBinary] = await database.getKBest(2, 'binaryValue', label, KBigram);
+        let [biOccurrences] = await database.getKBest(2, 'ocurrences', label, KBigram);
+        let [biTf] = await database.getKBest(2, 'tf', label, KBigram);
+        let [biTfIdf] = await database.getKBest(2, 'tfidf', label, KBigram);
 
         results.concat(uniBinary)
         results.concat(uniOccurrences)
