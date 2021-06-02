@@ -62,7 +62,7 @@ module.exports = (connection) => {
                 label
             ]);
         },
-        getKBest: (ngram, metric, k) => {
+        getKBest: (ngram, metric, label, k) => {
             let query = `SELECT 
                     id,
                     term,
@@ -75,10 +75,10 @@ module.exports = (connection) => {
                     label,
                     RANK() OVER(ORDER BY ? DESC) position
                 FROM KBest
-                WHERE ngram = ? AND metric LIKE '?';
+                WHERE ngram = ? AND metric LIKE '?' AND label '?';
                 LIMIT ?`;
 
-            return query.execute(query, [ngram, metric, metric, metric, k]);
+            return query.execute(query, [metric, ngram, metric, label, k]);
         }
     };
 }

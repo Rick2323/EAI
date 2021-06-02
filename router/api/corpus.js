@@ -54,26 +54,35 @@ router.post("/KBest", async (req, res) => {
 
     let { kUnigram, nKBigram } = req.body;
 
-    let [uniBinary] = await database.getKBest(1, 'binaryValue', kUnigram);
-    let [uniOccurrences] = await database.getKBest(1, 'ocurrences', kUnigram);
-    let [uniTf] = await database.getKBest(1, 'tf', kUnigram);
-    let [uniTfIdf] = await database.getKBest(1, 'tfidf', kUnigram);
+    let results = {
+        'happy': {},
+        'not happy': {}
+    };
 
-    let [biBinary] = await database.getKBest(2, 'binaryValue', nKBigram);
-    let [biOccurrences] = await database.getKBest(2, 'ocurrences', nKBigram);
-    let [biTf] = await database.getKBest(2, 'tf', nKBigram);
-    let [biTfIdf] = await database.getKBest(2, 'tfidf', nKBigram);
+    for (let label in results) {
+        let [uniBinary] = await database.getKBest(1, 'binaryValue', label, kUnigram);
+        let [uniOccurrences] = await database.getKBest(1, 'ocurrences', label, kUnigram);
+        let [uniTf] = await database.getKBest(1, 'tf', label, kUnigram);
+        let [uniTfIdf] = await database.getKBest(1, 'tfidf', label, kUnigram);
 
-    res.render('./pages/listKBest.ejs', {
-        uniBinary,
-        uniOccurrences,
-        uniTf,
-        uniTfIdf,
-        biBinary,
-        biOccurrences,
-        biTf,
-        biTfIdf
-    });
+        let [biBinary] = await database.getKBest(2, 'binaryValue', label, nKBigram);
+        let [biOccurrences] = await database.getKBest(2, 'ocurrences', label, nKBigram);
+        let [biTf] = await database.getKBest(2, 'tf', label, nKBigram);
+        let [biTfIdf] = await database.getKBest(2, 'tfidf', label, nKBigram);
+
+        results[label] = {
+            uniBinary,
+            uniOccurrences,
+            uniTf,
+            uniTfIdf,
+            biBinary,
+            biOccurrences,
+            biTf,
+            biTfIdf
+        };
+    }
+
+    res.render('./pages/listKBest.ejs', { results });
 });
 
 module.exports = router;
