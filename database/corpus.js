@@ -48,7 +48,7 @@ module.exports = (connection) => {
                     term,
                     binaryValue,
                     tf,
-                    idf,
+                    occurrences,
                     tfidf,
                     metric,
                     ngram,
