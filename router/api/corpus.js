@@ -54,8 +54,8 @@ router.post("/KBest", async (req, res) => {
 
     let { kUnigram, KBigram } = req.body;
 
-    console.log(typeof kUnigram)
-    console.log(typeof KBigram)
+    kUnigram = parseInt(kUnigram);
+    KBigram = parseInt(KBigram);
 
     let labels = ["happy", "not happy"]
     let results = [];
