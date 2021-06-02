@@ -19,9 +19,9 @@
          data-search="true">
     <thead>
       <tr>
-        <th data-field="Label" data-filter-control="select">Label</th>
-        <th data-field="Metric" data-filter-control="select">Metric</th>
-        <th data-field="ngram" data-filter-control="select">ngram</th>
+        <th data-field="Label" data-filter-strict-search="true" data-filter-control="select">Label</th>
+        <th data-field="Metric" data-filter-strict-search="true" data-filter-control="select">Metric</th>
+        <th data-field="ngram" data-filter-strict-search="true" data-filter-control="select">ngram</th>
         <th>Term</th>
         <th data-sortable="true">Position</th>
         <th data-sortable="true">Binary</th>
@@ -62,39 +62,6 @@
           </td>
         </tr>
         <% } %>
-
-<!-- 
-      <% for(var i=0; i < 50; i++) {%>
-        <tr>
-          <td>
-            <%= (Math.floor(Math.random() * 2) + 1==1 ? "Hapyy" : "Not Happy" ) %>
-          </td>
-          <td>
-            <%= (Math.floor(Math.random() * 2) + 1==1 ? "Binary" : "Occurrences" ) %>
-          </td>
-          <td>
-            <%= (Math.floor(Math.random() * 2) + 1==1 ? "1" : "2" ) %>
-          </td>
-          <td>
-            <%= "Bosta " .repeat((Math.floor(Math.random() * 100) + 10)) %>
-          </td>
-          <td>
-            <%= i %>
-          </td>
-          <td>
-            <%= i+1 %>
-          </td>
-          <td>
-            <%= i+2 %>
-          </td>
-          <td>
-            <%= i+3 %>
-          </td>
-          <td>
-            <%= i+4 %>
-          </td>
-        </tr>
-        <% } %> -->
     </tbody>
   </table>
 
