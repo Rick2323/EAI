@@ -62,25 +62,27 @@ router.post("/KBest", async (req, res) => {
 
     for (let label of labels) {
         let [uniBinary] = await database.getKBest(1, 'binaryValue', label, kUnigram);
-        let [uniOccurrences] = await database.getKBest(1, 'ocurrences', label, kUnigram);
+        let [uniOccurrences] = await database.getKBest(1, 'occurrences', label, kUnigram);
         let [uniTf] = await database.getKBest(1, 'tf', label, kUnigram);
         let [uniTfIdf] = await database.getKBest(1, 'tfidf', label, kUnigram);
 
         let [biBinary] = await database.getKBest(2, 'binaryValue', label, KBigram);
-        let [biOccurrences] = await database.getKBest(2, 'ocurrences', label, KBigram);
+        let [biOccurrences] = await database.getKBest(2, 'occurrences', label, KBigram);
         let [biTf] = await database.getKBest(2, 'tf', label, KBigram);
         let [biTfIdf] = await database.getKBest(2, 'tfidf', label, KBigram);
 
-        results.concat(uniBinary)
-        results.concat(uniOccurrences)
-        results.concat(uniTf)
-        results.concat(uniTfIdf)
+        results = results.concat(uniBinary)
+        results = results.concat(uniOccurrences)
+        results = results.concat(uniTf)
+        results = results.concat(uniTfIdf)
 
-        results.concat(biBinary)
-        results.concat(biOccurrences)
-        results.concat(biTf)
-        results.concat(biTfIdf)
+        results = results.concat(biBinary)
+        results = results.concat(biOccurrences)
+        results = results.concat(biTf)
+        results = results.concat(biTfIdf)
     }
+
+    console.log(results)
 
     res.render('./pages/listKBest.ejs', { results });
 });

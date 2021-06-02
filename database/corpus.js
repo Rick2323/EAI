@@ -55,7 +55,7 @@ module.exports = (connection) => {
                     label,
                     RANK() OVER(ORDER BY ? DESC) position
                 FROM KBest
-                WHERE ngram = ? AND metric LIKE '?' AND label LIKE '?';
+                WHERE ngram = ? AND metric LIKE ? AND label LIKE ?
                 LIMIT ?`;
 
             return connection.query(query, [metric, ngram, metric, label, k]);
