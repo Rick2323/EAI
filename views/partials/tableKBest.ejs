@@ -31,6 +31,39 @@
       </tr>
     </thead>
     <tbody>
+      <% for(var i=0; i < results.length; i++) {%>
+        <tr>
+          <td>
+            <%= results[i].label %>
+          </td>
+          <td>
+            <%= results[i].metric %>
+          </td>
+          <td>
+            <%= results[i].ngram %>
+          </td>
+          <td>
+            <%= results[i].term %>
+          </td>
+          <td>
+            <%= results[i].position %>
+          </td>
+          <td>
+            <%= results[i].binary %>
+          </td>
+          <td>
+            <%= results[i].occurrences %>
+          </td>
+          <td>
+            <%= results[i].tf %>
+          </td>
+          <td>
+            <%= results[i].tfidf %>
+          </td>
+        </tr>
+        <% } %>
+
+<!-- 
       <% for(var i=0; i < 50; i++) {%>
         <tr>
           <td>
@@ -61,7 +94,7 @@
             <%= i+4 %>
           </td>
         </tr>
-        <% } %>
+        <% } %> -->
     </tbody>
   </table>
 

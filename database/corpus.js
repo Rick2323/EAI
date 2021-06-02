@@ -55,10 +55,10 @@ module.exports = (connection) => {
                     label,
                     RANK() OVER(ORDER BY ? DESC) position
                 FROM KBest
-                WHERE ngram = ? AND metric LIKE '?' AND label '?';
+                WHERE ngram = ? AND metric LIKE '?' AND label LIKE '?';
                 LIMIT ?`;
 
-            return query.execute(query, [metric, ngram, metric, label, k]);
+            return connection.query(query, [metric, ngram, metric, label, k]);
         }
     };
 }
