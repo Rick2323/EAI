@@ -62,6 +62,8 @@ let process = async () => {
     await insertKBestResults(classes);
 
     fs.writeFileSync(`${__dirname}\\training-process.txt`, JSON.stringify(classes, null, 4));
+
+    return classes;
 };
 
 let writeTopKBestToFile = async () => {
@@ -243,8 +245,26 @@ let mapTerms = (tokenized, docID) => {
 };
 
 let run = async () => {
-    await process();
+    let classes = await process();
     await writeTopKBestToFile();
+
+    
 };
 
-run();
+let calculateClassVectors = async () => {
+    let classes = await process();
+    let classVectors={
+    };
+    
+    for(let label in classes){
+        classVectors[label] = {
+            bows: classes[label].bows
+        };
+    }
+
+    return classVectors
+}
+
+// run();
+
+module.exports.calculateClassVectors = calculateClassVectors; 

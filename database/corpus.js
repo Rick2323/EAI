@@ -5,6 +5,13 @@ module.exports = (connection) => {
 
             return connection.query(query);
         },
+        getTestDocuments: (label, limit) => {
+            let query = `SELECT c.id, c.description, c.browser, c.device, c.label
+             FROM Corpus c
+             WHERE c.id NOT IN (SELECT idCorpus FROM TrainingSet) AND label LIKE '${label}' ${limit ? `LIMIT ${limit}` : ''} `;
+
+             return connection.query(query);
+        },
         getDocument: (id) => {
             let query = `SELECT * FROM Corpus WHERE id = ?`;
 
@@ -44,7 +51,7 @@ module.exports = (connection) => {
         },
         getKBest: (ngram, metric, label, k) => {
             let rankingMetric = metric;
-            if(metric === 'binaryValue') metric = 'binary'
+            if (metric === 'binaryValue') metric = 'binary'
 
             let query = `SELECT 
                     id,
