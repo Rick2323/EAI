@@ -5,32 +5,71 @@ let counting = require('./counting');
 let bagOfWords = require('../features/bagOfWords');
 let featureSelection = require('../features/featureSelection');
 
+let preTreatment = async (result) => {
+    let [res] = await database.getLabels();
+    classes = {};
+
+    for (let obj of res) {
+        let label = obj.label;
+        classes[label] = {
+            elements: result.filter(e => e.label === label).map(e => {
+                return {
+                    docID: e.id,
+                    original: e.description
+                };
+            })
+        }
+    }
+
+    return classes;
+
+    // classes['happy'] = {
+    //     elements: happy.map(e => {
+    //         return {
+    //             docID: e.id,
+    //             original: e.description
+    //         };
+    //     })
+    // };
+
+    // classes['not happy'] = {
+    //     elements: nHappy.map(e => {
+    //         return {
+    //             docID: e.id,
+    //             original: e.description
+    //         };
+    //     })
+    // };
+
+}
+
 let process = async () => {
     let [result] = await database.getTrainingSet();
-    let classes = {
-    };
+    // let classes = {
+    // };
 
-    let happy = result.filter(e => e.label === 'happy');
-    let nHappy = result.filter(e => e.label === 'not happy');
+    // let happy = result.filter(e => e.label === 'happy');
+    // let nHappy = result.filter(e => e.label === 'not happy');
 
-    classes['happy'] = {
-        elements: happy.map(e => {
-            return {
-                docID: e.id,
-                original: e.description
-            };
-        })
-    };
+    // classes['happy'] = {
+    //     elements: happy.map(e => {
+    //         return {
+    //             docID: e.id,
+    //             original: e.description
+    //         };
+    //     })
+    // };
 
-    classes['not happy'] = {
-        elements: nHappy.map(e => {
-            return {
-                docID: e.id,
-                original: e.description
-            };
-        })
-    };
+    // classes['not happy'] = {
+    //     elements: nHappy.map(e => {
+    //         return {
+    //             docID: e.id,
+    //             original: e.description
+    //         };
+    //     })
+    // };
 
+    let classes = await preTreatment(result);
     for (let prop in classes) {
         classes[prop]['n1Terms'] = [];
         classes[prop]['n2Terms'] = [];
@@ -67,12 +106,13 @@ let process = async () => {
 };
 
 let writeTopKBestToFile = async () => {
-    let labels = ["happy", "not happy"];
+    let res = await database.getLabels();
     let ngrams = [1, 2];
     let results = {};
     let limit = 50;
 
-    for (let label of labels) {
+    for (let obj of res) {
+        let label = obj.label;
         for (let ngram of ngrams) {
             let [tfIdf] = await database.getKBest(ngram, 'tfidf', label, limit);
             results[label] = Object.assign({}, results[label], {
@@ -248,15 +288,15 @@ let run = async () => {
     let classes = await process();
     await writeTopKBestToFile();
 
-    
+
 };
 
 let calculateClassVectors = async () => {
     let classes = await process();
-    let classVectors={
+    let classVectors = {
     };
-    
-    for(let label in classes){
+
+    for (let label in classes) {
         classVectors[label] = {
             bows: classes[label].bows
         };
@@ -265,6 +305,6 @@ let calculateClassVectors = async () => {
     return classVectors
 }
 
-// run();
+run();
 
-module.exports.calculateClassVectors = calculateClassVectors; 
+module.exports.calculateClassVectors = calculateClassVectors;

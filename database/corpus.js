@@ -1,12 +1,16 @@
 module.exports = (connection) => {
     return {
+        getLabels:() => {
+            let query = `SELECT DISTINCT label FROM Corpus ORDER BY label ASC`;
+            return connection.query(query);
+        },
         getDocuments: (label, limit) => {
             let query = `SELECT * FROM Corpus WHERE label LIKE '${label}' ${limit ? `LIMIT ${limit}` : ''} `;
 
             return connection.query(query);
         },
         getTestDocuments: (label, limit) => {
-            let query = `SELECT c.id, c.description, c.browser, c.device, c.label
+            let query = `SELECT c.id, c.productID, c.description, c.label
              FROM Corpus c
              WHERE c.id NOT IN (SELECT idCorpus FROM TrainingSet) AND label LIKE '${label}' ${limit ? `LIMIT ${limit}` : ''} `;
 
@@ -19,9 +23,8 @@ module.exports = (connection) => {
         },
         getTrainingSet: () => {
             let query = `SELECT c.id,
+                                c.productID,
                                 c.description,
-                                c.browser,
-                                c.device,
                                 c.label
                         FROM TrainingSet t
                         INNER JOIN Corpus c ON t.idCorpus = c.id;`;

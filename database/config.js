@@ -1,8 +1,8 @@
 module.exports = {
     host: 'remotemysql.com',
-    user: 'N5iULqXyFq',
-    password: 'LAC3zOIHsZ',
-    database: 'N5iULqXyFq',
+    user: 'Wzw9BzJt3h',
+    password: 'gigN7PQqht',
+    database: 'Wzw9BzJt3h',
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
