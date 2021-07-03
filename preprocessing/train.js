@@ -305,6 +305,15 @@ let calculateClassVectors = async () => {
     return classVectors
 }
 
-run();
+let calculateAPrioriProbabilities = async (label) => {
+    let [filteredResult] = await database.getTrainingSetByLabel(label);
+    let [result] = await database.getTrainingSetByLabel();
+
+    let probAPriori = Math.round((filteredResult / result) + Number.EPSILON * 1000) / 1000;
+    return probAPriori;
+};
+
+// run();
 
 module.exports.calculateClassVectors = calculateClassVectors;
+module.exports.calculateAPrioriProbabilities = calculateAPrioriProbabilities;

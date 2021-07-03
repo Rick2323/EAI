@@ -31,6 +31,17 @@ module.exports = (connection) => {
 
             return connection.query(query);
         },
+        getTrainingSetByLabel: (label) => {
+            let query = `SELECT c.id,
+                                c.productID,
+                                c.description,
+                                c.label
+                        FROM TrainingSet t
+                        INNER JOIN Corpus c ON t.idCorpus = c.id
+                        ${label !== null && label !== "" ? `WHERE label=${label}` : ''};`;
+
+            return connection.query(query);
+        },
         deleteTrainingResults: () => {
             let query = 'DELETE FROM BagOfWords WHERE true;';
 

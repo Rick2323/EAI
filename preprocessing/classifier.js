@@ -1,5 +1,6 @@
 let preprocessing = require('./index');
 let bagOfWordsFeatures = require('../features/bagOfWords');
+let database = require('../database');
 
 let cosineSimilarity = async (str, classVectors) => {
     let n = 1;
@@ -82,4 +83,9 @@ let mapTerms = (tokenized) => {
     });
 };
 
+let naiveBayes = async () => {
+    
+};
+
 module.exports.cosineSimilarity = cosineSimilarity;
+module.exports.naiveBayes = naiveBayes;
