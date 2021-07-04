@@ -1,10 +1,9 @@
 <table style="margin-top: 2em;" class="table">
     <tr>
       <th>ID</th>
+      <th>Product ID</th>
       <th>Label</th>
       <th>Description</th>
-      <th>Browser</th>
-      <th>Device</th>
     </tr>
 
     <% for(var i=0; i < results.length; i++) {%>
@@ -13,16 +12,13 @@
           <%= results[i].id %>
         </td>
         <td>
+          <%= results[i].productID %>
+        </td>
+        <td>
           <%= results[i].label %>
         </td>
         <td>
           <%= results[i].description %>
-        </td>
-        <td>
-          <%= results[i].browser %>
-        </td>
-        <td>
-          <%= results[i].device %>
         </td>
       </tr>
       <% } %>

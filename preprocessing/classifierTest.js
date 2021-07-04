@@ -4,22 +4,28 @@ let database = require('../database');
 let fs = require('fs');
 
 let test = async () => {
-    let [happy] = await database.getTestDocuments('happy', 50);
-    let [notHappy] = await database.getTestDocuments('not happy', 50);
+    // let [happy] = await database.getTestDocuments('happy', 50);
+    // let [notHappy] = await database.getTestDocuments('not happy', 50);
+
+    let [labelResult] = await database.getLabels();
+    let labels = labelResult.map(e => e.label);
 
     let results = {
-        original: {
-            happy,
-            notHappy
-        },
-        classified: []
-    };
+        classified: [],
+        original: []
+    }
+    
+    for(let label of labels){
+        let [docResult] = await database.getTestDocuments(label, 50);
+        results.original.push({label, docs: docResult});
+    }
 
     let classVectors = await train.calculateClassVectors();
-    for (let label in results.original) {
+    for (let original of results.original) {
+        let label = original.label;
         let predicted = [];
-        for (let doc of results.original[label]) {
-            let produced = await classifier.cosineSimilarity(doc.description, classVectors);
+        for (let elem of results.original.filter(e => e.label === label).map(e => e.docs)[0]) {
+            let produced = await classifier.cosineSimilarity(elem.description, classVectors);
             predicted.push({
                 expected: label,
                 produced
@@ -28,7 +34,43 @@ let test = async () => {
         results.classified.push(predicted);
     }
 
-    await fs.writeFileSync('test.json', JSON.stringify(results));
+    await fs.writeFileSync('test.json', JSON.stringify(results.classified));
 };
 
-test();
+let testBayes = async () => {
+    let [labelResult] = await database.getLabels();
+    let labels = labelResult.map(e => e.label);
+
+    let [bagOfWords] = await database.getBagOfWords();
+
+    let results = {
+        classified: [],
+        original: [],
+        aPrioriProbabilities: []
+    }
+    
+    for(let label of labels){
+        let [docResult] = await database.getTestDocuments(label, 50);
+        let aPrioriProbability = await train.calculateAPrioriProbabilities(label);
+        results.original.push({label, docs: docResult});
+        results.aPrioriProbabilities.push({label, aPrioriProbability });
+    }
+
+    for (let original of results.original) {
+        let label = original.label;
+        let predicted = [];
+        for (let elem of results.original.filter(e => e.label === label).map(e => e.docs)[0]) {
+            let produced = await classifier.classify(elem.description, bagOfWords, results.aPrioriProbabilities);
+            predicted.push({
+                expected: label,
+                produced
+            });
+        }
+        results.classified.push(predicted);
+    }
+
+    await fs.writeFileSync('testBayes.json', JSON.stringify(results.classified, null, 2));
+}
+
+// test();
+testBayes();

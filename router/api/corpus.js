@@ -5,7 +5,6 @@ var database = require("../../database");
 var preprocessing = require("../../preprocessing");
 
 router.get("/", async (req, res) => {
-
     res.render('./pages/listCorpus.ejs', { results: "" })
 });
 
@@ -57,7 +56,8 @@ router.post("/KBest", async (req, res) => {
     kUnigram = parseInt(kUnigram);
     KBigram = parseInt(KBigram);
 
-    let labels = ["happy", "not happy"]
+    let [labelsResult] = await database.getLabels();
+    let labels = labelsResult.map(e => e.label);
     let results = [];
 
     for (let label of labels) {

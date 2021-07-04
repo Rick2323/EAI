@@ -309,7 +309,7 @@ let calculateAPrioriProbabilities = async (label) => {
     let [filteredResult] = await database.getTrainingSetByLabel(label);
     let [result] = await database.getTrainingSetByLabel();
 
-    let probAPriori = Math.round((filteredResult / result) + Number.EPSILON * 1000) / 1000;
+    let probAPriori = Math.round(((filteredResult.length / result.length) + Number.EPSILON) * 1000) / 1000;
     return probAPriori;
 };
 

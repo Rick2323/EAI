@@ -1,6 +1,6 @@
 module.exports = (connection) => {
     return {
-        getLabels:() => {
+        getLabels: () => {
             let query = `SELECT DISTINCT label FROM Corpus ORDER BY label ASC`;
             return connection.query(query);
         },
@@ -14,7 +14,7 @@ module.exports = (connection) => {
              FROM Corpus c
              WHERE c.id NOT IN (SELECT idCorpus FROM TrainingSet) AND label LIKE '${label}' ${limit ? `LIMIT ${limit}` : ''} `;
 
-             return connection.query(query);
+            return connection.query(query);
         },
         getDocument: (id) => {
             let query = `SELECT * FROM Corpus WHERE id = ?`;
@@ -38,7 +38,7 @@ module.exports = (connection) => {
                                 c.label
                         FROM TrainingSet t
                         INNER JOIN Corpus c ON t.idCorpus = c.id
-                        ${label !== null && label !== "" ? `WHERE label=${label}` : ''};`;
+                        ${label !== undefined && label !== "" ? `WHERE label=${label}` : ''};`;
 
             return connection.query(query);
         },
@@ -83,6 +83,28 @@ module.exports = (connection) => {
                 LIMIT ?`;
 
             return connection.query(query, [ngram, metric, label, k]);
+        },
+        getSumOcurrences: (label) => {
+            let query = `SELECT SUM(occurrences) as SumOccurrences 
+            FROM BagOfWords 
+            WHERE metric like 'sum' AND label = ?`;
+
+            return connection.query(query, [label]);
+        },
+        getOccurrencesByTerm: (term) => {
+            let query = `SELECT occurrences, label FROM BagOfWords WHERE metric like 'sum' AND term like ?`;
+
+            return connection.query(query, [term]);
+        },
+        getNumberOfUniqueTerms: () => {
+            let query = `SELECT Count(distinct(term)) as sumUnique FROM BagOfWords;`;
+
+            return connection.query(query);
+        },
+        getBagOfWords: () => {
+            let query = `SELECT * FROM BagOfWords;`;
+
+            return connection.query(query);
         }
     };
 }
