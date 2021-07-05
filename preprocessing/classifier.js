@@ -20,7 +20,7 @@ let cosineSimilarity = async (str, classVectors) => {
         let classVector = classVectors[label];
         let tfidfArray = tfidfVector(distinctNGrams, classVector.bows["n" + 1].avg);
         let cosineSimilarity = calculateCosineSimilarity(tfidfArray, classVector.bows["n" + 1].avg);
-        cosineSimilarities.push({ class: label, cosineSimilarity });
+        cosineSimilarities.push({ class: parseInt(label), probability: cosineSimilarity });
     }
 
     return checkMaxCosineSimilarity(cosineSimilarities);

@@ -3,9 +3,7 @@ let train = require('./train');
 let database = require('../database');
 let fs = require('fs');
 
-let test = async () => {
-    // let [happy] = await database.getTestDocuments('happy', 50);
-    // let [notHappy] = await database.getTestDocuments('not happy', 50);
+let classifyCosineSimilarity = async () => {
 
     let [labelResult] = await database.getLabels();
     let labels = labelResult.map(e => e.label);
@@ -35,9 +33,11 @@ let test = async () => {
     }
 
     await fs.writeFileSync('test.json', JSON.stringify(results.classified));
+
+    return results.classified;
 };
 
-let testBayes = async () => {
+let classifyBayes = async () => {
     let [labelResult] = await database.getLabels();
     let labels = labelResult.map(e => e.label);
 
@@ -70,7 +70,15 @@ let testBayes = async () => {
     }
 
     await fs.writeFileSync('testBayes.json', JSON.stringify(results.classified, null, 2));
+    return results.classified;
 }
 
-// test();
-testBayes();
+let classify = async (classifier) => {
+    switch(classifier){
+        case "Bayes": return await classifyBayes();
+        case "Cosine": return await classifyCosineSimilarity();
+        default: return await classifyBayes();
+    }
+}
+
+module.exports.classify = classify;
