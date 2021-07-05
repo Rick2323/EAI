@@ -1,25 +1,27 @@
-<table style="margin-top: 2em;" class="table">
-    <tr>
-      <th>Classe</th>
-      <th>Precision</th>
-      <th>Recall</th>
-      <th>F-measure</th>
-    </tr>
+<div style="width: 60%; margin: auto;">
+    <table style="margin-top: 2em;" class="table">
+        <tr class="evaluationTableHeader">
+            <th>Classe</th>
+            <th>Precision</th>
+            <th>Recall</th>
+            <th>F-measure</th>
+        </tr>
 
-    <% for(var i=0; i < results.length; i++) {%>
-      <tr>
-        <td>
-          <%= results[i].id %>
-        </td>
-        <td>
-          <%= results[i].productID %>
-        </td>
-        <td>
-          <%= results[i].label %>
-        </td>
-        <td>
-          <%= results[i].description %>
-        </td>
-      </tr>
-      <% } %>
-  </table>
+        <% for(var i=0; i < results.measures.length; i++) {%>
+            <tr>
+                <td>
+                    <%= results.measures[i].class %>
+                </td>
+                <td>
+                    <%= results.measures[i].precision %>
+                </td>
+                <td>
+                    <%= results.measures[i].recall %>
+                </td>
+                <td>
+                    <%= results.measures[i].fMeasure %>
+                </td>
+            </tr>
+            <% } %>
+    </table>
+</div>
