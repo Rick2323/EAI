@@ -3,6 +3,8 @@ const router = express.Router();
 
 var database = require("../../database");
 var preprocessing = require("../../preprocessing");
+let classification = require('../../preprocessing/classification');
+let stats = require('../../preprocessing/stats');
 
 router.get("/", async (req, res) => {
     res.render('./pages/listCorpus.ejs', { results: "" })
@@ -89,6 +91,26 @@ router.post("/KBest", async (req, res) => {
 
 router.get("/confusionMatrix", async (req, res) => {
     res.render('./pages/confusionMatrix.ejs', { results: "" })
+});
+
+router.post("/confusionMatrix", async (req, res) => {
+
+    let { classifier } = req.body;
+
+    let classificationResult = await classification.classify(classifier);
+    let confusionMatrix = await stats.confusionMatrix(classificationResult);
+    let precision = await stats.precision(confusionMatrix);
+    let recall = await stats.recall(confusionMatrix);
+    let fMeasure = await stats.fMeasure(confusionMatrix, precision, recall);
+
+    res.render('./pages/confusionMatrix.ejs', {
+        results: {
+            confusionMatrix,
+            precision,
+            recall,
+            fMeasure
+        }
+    });
 });
 
 module.exports = router;
