@@ -17,7 +17,7 @@
     <form action="confusionMatrix" method="POST">
       <div class="row">
         <div class="col-auto">
-          <select class="form-select" style="width:auto;" name="label">
+          <select class="form-select" style="width:auto;" name="classifier">
             <option value="Bayes">Classificador de Bayes</option>
             <option value="Cosine">Similaridade do Cosseno</option>
           </select>
@@ -28,9 +28,6 @@
         </div>
       </div>
     </form>
-
-
-
 
     <%- include('../partials/generalConfusionMatrix'); %>
 
@@ -59,8 +56,7 @@
         </span>
       </div>
 
-
-      <%= results.confusionMatrix %>
+      <%= json.stringify(results.confusionMatrix) %>
   </div>
 
   <footer>
