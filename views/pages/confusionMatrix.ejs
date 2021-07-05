@@ -12,9 +12,55 @@
   </header>
 
   <div class="myContainer">
-   
+    <h1>Matriz de Confusão</h1>
+
+    <form action="confusionMatrix" method="POST">
+      <div class="row">
+        <div class="col-auto">
+          <select class="form-select" style="width:auto;" name="label">
+            <option value="Bayes">Classificador de Bayes</option>
+            <option value="Cosine">Similaridade do Cosseno</option>
+          </select>
+        </div>
+
+        <div class="col-auto">
+          <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
+      </div>
+    </form>
+
+
+
 
     <%- include('../partials/generalConfusionMatrix'); %>
+
+
+      <div class="processedText">
+        <b>Precision</b>
+        <br>
+        <span>
+          <%= results.precision %>
+        </span>
+      </div>
+
+      <div class="processedText">
+        <b>Recall</b>
+        <br>
+        <span>
+          <%= results.recall %>
+        </span>
+      </div>
+
+      <div class="processedText">
+        <b>F-measure</b>
+        <br>
+        <span>
+          <%= results.fMeasure %>
+        </span>
+      </div>
+
+
+      <%= results.confusionMatrix %>
   </div>
 
   <footer>

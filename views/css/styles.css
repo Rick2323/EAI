@@ -13,3 +13,30 @@ body {
     margin-top: 1em;
     padding: 0.5em;
 }
+
+.confusionMatrixHeader {
+    font-weight: bold;
+    font-size: larger;
+    text-align: center;
+    padding: 0.5em;
+    background-color: whitesmoke !important;
+}
+
+.confusionMatrixHeaderTop {
+    border-top: 1px solid #dee2e6;
+    border-right: 1px solid #dee2e6;
+    border-left: 1px solid #dee2e6;
+}
+
+.confusionMatrixHeaderLeft {
+    writing-mode: tb-rl;
+    transform: rotate(-180deg);
+    border-top: 1px solid #dee2e6;
+    border-right: 1px solid #dee2e6;
+}
+
+.confusionMatrixLabelHeader {
+    font-weight: bold;
+    font-size: large;
+    background-color: whitesmoke !important;
+}

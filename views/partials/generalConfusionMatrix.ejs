@@ -1,26 +1,41 @@
-<div>
+<div style="margin-top: 2em;">
   <div>
-    <div class="d-flex justify-content-center">
+    <div class="confusionMatrixHeader confusionMatrixHeaderTop">
       Classe Real
     </div>
     <div class="d-flex flex-row">
-      <div class="d-flex align-items-center" style="transform: rotate(-90deg); display: inline-block; overflow-x: auto;">
+      <div class="confusionMatrixHeader confusionMatrixHeaderLeft">
         Classe Estimada
       </div>
-      <table style="margin-top: 2em;" class="table">
+      <table class="table table-bordered" style="margin: 0;">
         <tr>
-          <th></th>
-          <th>1</th>
-          <th>2</th>
-          <th>3</th>
-          <th>4</th>
-          <th>5</th>
+          <td class="confusionMatrixLabelHeader"></td>
+          <td class="confusionMatrixLabelHeader">1</td>
+          <td class="confusionMatrixLabelHeader">2</td>
+          <td class="confusionMatrixLabelHeader">3</td>
+          <td class="confusionMatrixLabelHeader">4</td>
+          <td class="confusionMatrixLabelHeader">5</td>
         </tr>
 
-        <% for(var i=0; i < 5; i++) {%>
+        <% for(var i=0; i < 5; i++) { %> 
           <tr>
-            <td style="font-weight: bold;">
-              <%= i+1%>
+            <td class="confusionMatrixLabelHeader">
+              <%= i%>
+            </td>
+            <td>
+              <%= i%>
+            </td>
+            <td>
+              <%= i%>
+            </td>
+            <td>
+              <%= i%>
+            </td>
+            <td>
+              <%= i%>
+            </td>
+            <td>
+              <%= i%>
             </td>
           </tr>
           <% } %>
