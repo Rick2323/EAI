@@ -1,0 +1,25 @@
+<table style="margin-top: 2em;" class="table">
+    <tr>
+      <th>Classe</th>
+      <th>Precision</th>
+      <th>Recall</th>
+      <th>F-measure</th>
+    </tr>
+
+    <% for(var i=0; i < results.length; i++) {%>
+      <tr>
+        <td>
+          <%= results[i].id %>
+        </td>
+        <td>
+          <%= results[i].productID %>
+        </td>
+        <td>
+          <%= results[i].label %>
+        </td>
+        <td>
+          <%= results[i].description %>
+        </td>
+      </tr>
+      <% } %>
+  </table>

@@ -31,35 +31,13 @@
 
     <%- include('../partials/generalConfusionMatrix'); %>
 
-
-      <div class="processedText">
-        <b>Precision</b>
-        <br>
-        <span>
-          <%= results.precision %>
-        </span>
-      </div>
-
-      <div class="processedText">
-        <b>Recall</b>
-        <br>
-        <span>
-          <%= results.recall %>
-        </span>
-      </div>
-
-      <div class="processedText">
-        <b>F-measure</b>
-        <br>
-        <span>
-          <%= results.fMeasure %>
-        </span>
-      </div>
+    <%- include('../partials/evaluationTable'); %>
   </div>
 
   <footer>
     <%- include('../partials/footer'); %>
   </footer>
+  
 </body>
 
 </html>
