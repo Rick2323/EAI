@@ -48,7 +48,7 @@ let precision = async (confusionMatrix) => {
     for (let i = 0; i < matrix.length; i++) {
         let tp = matrix[i][i];
         let fp = matrix[i].reduce((a, b) => a + b) - matrix[i][i];
-        let precision = tp / (tp + fp);
+        let precision = Math.round(((tp / (tp + fp)) + Number.EPSILON) * 1000) / 1000;
         precisions.push({ class: i + 1, precision });
     }
     return precisions;
@@ -80,7 +80,7 @@ let recall = async (confusionMatrix) => {
                 fn += matrix[j][i];
             }
         }
-        let recall = tp / (tp + fn);
+        let recall = Math.round(((tp / (tp + fn)) + Number.EPSILON) * 1000) / 1000;
         recalls.push({ class: i + 1, recall });
     }
     return recalls;
@@ -104,9 +104,10 @@ let fMeasure = async (confusionMatrix, prec, rec) => {
     let recalls = (rec !== undefined && this.rec !== 0) ? rec : recall(confusionMatrix);
     let fscores = [];
     for (let i = 0; i < confusionMatrix.matrix.length; i++) {
-        let fscore = 2 * (
+        let fscore = Math.round(((2 * (
             (precisions[i].precision * recalls[i].recall) /
-            (precisions[i].precision + recalls[i].recall));
+            (precisions[i].precision + recalls[i].recall))
+        ) + Number.EPSILON) * 1000) / 1000;
         fscores.push({ class: i + 1, fscore });
     }
     return fscores;
