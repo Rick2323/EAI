@@ -50,7 +50,7 @@ let checkMaxCosineSimilarity = (arr) => {
     let max = arr[0];
     for (let i = 1; i < arr.length; i++) {
         let sim = arr[i];
-        if (sim.cosineSimilarity > max.cosineSimilarity) {
+        if (sim.probability > max.probability) {
             max = sim;
         }
     }

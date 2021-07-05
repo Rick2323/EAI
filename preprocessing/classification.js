@@ -32,7 +32,7 @@ let classifyCosineSimilarity = async () => {
         results.classified.push(predicted);
     }
 
-    await fs.writeFileSync('test.json', JSON.stringify(results.classified));
+    await fs.writeFileSync('test.json', JSON.stringify(results.classified, null, 2));
 
     return results.classified;
 };
