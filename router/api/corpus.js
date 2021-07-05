@@ -14,7 +14,7 @@ router.post("/", async (req, res) => {
 
     let { label, limit } = req.body;
 
-    var [results] = await database.getDocuments(label, limit);
+    var [results] = await database.getDocuments(label, (!!limit ? limit : 10));
 
     res.render('./pages/listCorpus.ejs', { results })
 });
@@ -42,7 +42,7 @@ router.post("/preprocessing", async (req, res) => {
 
     let { original, n } = req.body;
 
-    var results = await preprocessing(original, n);
+    var results = await preprocessing(original, (!!n ? n : 2));
 
     res.render('./pages/preprocessing.ejs', { results })
 });
@@ -55,8 +55,8 @@ router.post("/KBest", async (req, res) => {
 
     let { kUnigram, KBigram } = req.body;
 
-    kUnigram = parseInt(kUnigram);
-    KBigram = parseInt(KBigram);
+    kUnigram = parseInt(!!kUnigram ? kUnigram : "2");
+    KBigram = parseInt(!!KBigram ? KBigram : "2");
 
     let [labelsResult] = await database.getLabels();
     let labels = labelsResult.map(e => e.label);
@@ -83,8 +83,6 @@ router.post("/KBest", async (req, res) => {
         results = results.concat(biTf)
         results = results.concat(biTfIdf)
     }
-
-    console.log(results)
 
     res.render('./pages/listKBest.ejs', { results });
 });
