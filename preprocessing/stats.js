@@ -43,15 +43,15 @@ let confusionMatrix = async (cls) => {
 Precision = True Positive / (True Positive + False Positive)
 */
 let precision = async (confusionMatrix) => {
-    let tp = 0;
-    let fp = 0;
+    let precisions = [];
     let matrix = confusionMatrix.matrix;
     for (let i = 0; i < matrix.length; i++) {
-        tp += matrix[i][i];
-        fp += matrix[i].reduce((a, b) => a + b) - matrix[i][i];
+        let tp = matrix[i][i];
+        let fp = matrix[i].reduce((a, b) => a + b) - matrix[i][i];
+        let precision = tp / (tp + fp);
+        precisions.push({ class: i + 1, precision });
     }
-    let precision = tp / (tp + fp);
-    return precision;
+    return precisions;
 };
 
 
@@ -68,10 +68,11 @@ let precision = async (confusionMatrix) => {
 Recall = True Positive / (True Positive + False Negative)
 */
 let recall = async (confusionMatrix) => {
-    let tp = 0;
-    let fn = 0;
+    let recalls = [];
     let matrix = confusionMatrix.matrix;
     for (let i = 0; i < matrix.length; i++) {
+        let tp = 0;
+        let fn = 0;
         for (let j = 0; j < matrix.length; j++) {
             if (i === j) {
                 tp += matrix[j][i];
@@ -79,10 +80,10 @@ let recall = async (confusionMatrix) => {
                 fn += matrix[j][i];
             }
         }
+        let recall = tp / (tp + fn);
+        recalls.push({ class: i + 1, recall });
     }
-
-    let recall = tp / (tp + fn);
-    return recall;
+    return recalls;
 };
 
 /*
@@ -99,10 +100,12 @@ F1 = 2 x [(Precision x Recall) / (Precision + Recall)]
 */
 
 let fMeasure = async (confusionMatrix, prec, rec) => {
-    let precisionValue = (prec !== undefined && this.prec !== 0) ? prec : precision(confusionMatrix);
-    let recallValue = (rec !== undefined && this.rec !== 0) ? rec : recall(confusionMatrix);
-
-    let fscore = 2 * ((precisionValue * recallValue) / (precisionValue + recallValue));
+    let precisions = (prec !== undefined && this.prec !== 0) ? prec : precision(confusionMatrix);
+    let recalls = (rec !== undefined && this.rec !== 0) ? rec : recall(confusionMatrix);
+    let fscores = [];
+    for(let i =0; i<confusionMatrix.matrix.length; i++){
+        
+    }
     return fscore;
 };
 
