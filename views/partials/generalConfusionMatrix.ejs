@@ -1,0 +1,30 @@
+<div>
+  <div>
+    <div class="d-flex justify-content-center">
+      Classe Real
+    </div>
+    <div class="d-flex flex-row">
+      <div class="d-flex align-items-center" style="transform: rotate(-90deg); display: inline-block; overflow-x: auto;">
+        Classe Estimada
+      </div>
+      <table style="margin-top: 2em;" class="table">
+        <tr>
+          <th></th>
+          <th>1</th>
+          <th>2</th>
+          <th>3</th>
+          <th>4</th>
+          <th>5</th>
+        </tr>
+
+        <% for(var i=0; i < 5; i++) {%>
+          <tr>
+            <td style="font-weight: bold;">
+              <%= i+1%>
+            </td>
+          </tr>
+          <% } %>
+      </table>
+    </div>
+  </div>
+</div>

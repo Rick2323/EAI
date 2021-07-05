@@ -87,4 +87,8 @@ router.post("/KBest", async (req, res) => {
     res.render('./pages/listKBest.ejs', { results });
 });
 
+router.get("/confusionMatrix", async (req, res) => {
+    res.render('./pages/confusionMatrix.ejs', { results: "" })
+});
+
 module.exports = router;
