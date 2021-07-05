@@ -38,5 +38,6 @@ body {
 .confusionMatrixLabelHeader {
     font-weight: bold;
     font-size: large;
+    text-align: center;
     background-color: whitesmoke !important;
 }

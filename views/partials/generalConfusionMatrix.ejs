@@ -8,37 +8,29 @@
         Classe Estimada
       </div>
       <table class="table table-bordered" style="margin: 0;">
-        <tr>
-          <td class="confusionMatrixLabelHeader"></td>
-          <td class="confusionMatrixLabelHeader">1</td>
-          <td class="confusionMatrixLabelHeader">2</td>
-          <td class="confusionMatrixLabelHeader">3</td>
-          <td class="confusionMatrixLabelHeader">4</td>
-          <td class="confusionMatrixLabelHeader">5</td>
-        </tr>
 
-        <% for(var i=0; i < 5; i++) { %> 
           <tr>
-            <td class="confusionMatrixLabelHeader">
-              <%= i%>
-            </td>
-            <td>
-              <%= i%>
-            </td>
-            <td>
-              <%= i%>
-            </td>
-            <td>
-              <%= i%>
-            </td>
-            <td>
-              <%= i%>
-            </td>
-            <td>
-              <%= i%>
-            </td>
+            <td class="confusionMatrixLabelHeader"></td>
+            <% for(var i=0; i < results.labels.length ; i++) { %>
+              <td class="confusionMatrixLabelHeader">
+                <%= results.labels[i] %>
+              </td>
+              <% } %>
           </tr>
-          <% } %>
+
+          <% for(var i=0; i < results.labels.length; i++) { %>
+            <tr>
+              <td class="confusionMatrixLabelHeader">
+                <%= results.labels[i] %>
+              </td>
+              <% for(var j=0; j < results.labels.length ; j++) { %>
+                <td>
+                  <%= (!!results.confusionMatrix && !!results.confusionMatrix.matrix ) ?
+                      results.confusionMatrix.matrix[i][j] : "" %>
+                </td>
+                <% } %>
+            </tr>
+            <% } %>
       </table>
     </div>
   </div>
