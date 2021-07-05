@@ -104,10 +104,12 @@ let fMeasure = async (confusionMatrix, prec, rec) => {
     let recalls = (rec !== undefined && this.rec !== 0) ? rec : recall(confusionMatrix);
     let fscores = [];
     for (let i = 0; i < confusionMatrix.matrix.length; i++) {
-        let fscore = 2 * ((precisions[i] * recalls[0]) / (precisions[0] + recalls[0]));
-        fscores.push({ class: i + 1, fscores });
+        let fscore = 2 * (
+            (precisions[i].precision * recalls[i].recall) /
+            (precisions[i].precision + recalls[i].recall));
+        fscores.push({ class: i + 1, fscore });
     }
-    return fscore;
+    return fscores;
 };
 
 module.exports.confusionMatrix = confusionMatrix;

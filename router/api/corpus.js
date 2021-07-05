@@ -102,18 +102,28 @@ router.post("/confusionMatrix", async (req, res) => {
     let [labelResult] = await database.getLabels();
     let labels = labelResult.map(e => e.label);
 
-   /*  let classificationResult = await classification.classify(classifier);
+    let classificationResult = await classification.classify(classifier);
     let confusionMatrix = await stats.confusionMatrix(classificationResult);
-    let precision = await stats.precision(confusionMatrix);
-    let recall = await stats.recall(confusionMatrix);
-    let fMeasure = await stats.fMeasure(confusionMatrix, precision, recall); */
+    let precisions = await stats.precision(confusionMatrix);
+    let recalls = await stats.recall(confusionMatrix);
+    let fMeasures = await stats.fMeasure(confusionMatrix, precisions, recalls);
+
+    let measures = labels.map(e => {
+        let precision = precisions.find(elem => elem.class === e).precision;
+        let recall = recalls.find(elem => elem.class === e).recall;
+        let fMeasure = fMeasures.find(elem => elem.class === e).fscore;
+
+        return {
+            class: e,
+            precision,
+            recall,
+            fMeasure
+        };
+    });
 
     res.render('./pages/confusionMatrix.ejs', {
         results: {
-            confusionMatrix,
-            precision,
-            recall,
-            fMeasure,
+            measures,
             labels
         }
     });
