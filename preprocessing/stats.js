@@ -14,7 +14,8 @@ let database = require('../database');
 */
 
 let confusionMatrix = async (classification) => {
-    let labels = await database.getLabels().map(e => e.label);
+    let [res] = await database.getLabels();
+    let labels = res.map(e => e.label);
     let matrix = [];
     for (let predicted of labels) {
         let row = [];
