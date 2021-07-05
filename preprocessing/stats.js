@@ -13,10 +13,11 @@ let database = require('../database');
     obj.matrix[2][2]
 */
 
-let confusionMatrix = async (classification) => {
+let confusionMatrix = async (cls) => {
     let [res] = await database.getLabels();
     let labels = res.map(e => e.label);
     let matrix = [];
+    let classification = [].concat.apply([], cls);
     for (let predicted of labels) {
         let row = [];
         for (let actual of labels) {
@@ -81,6 +82,7 @@ let recall = async (confusionMatrix) => {
     }
 
     let recall = tp / (tp + fn);
+    return recall;
 };
 
 /*
