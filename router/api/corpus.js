@@ -90,8 +90,8 @@ router.post("/KBest", async (req, res) => {
 });
 
 router.get("/confusionMatrix", async (req, res) => {
-    let [res] = await database.getLabels();
-    let labels = res.map(e => e.label);
+    let [labelResult] = await database.getLabels();
+    let labels = labelResult.map(e => e.label);
     res.render('./pages/confusionMatrix.ejs', { results: { labels } })
 });
 
@@ -99,8 +99,8 @@ router.post("/confusionMatrix", async (req, res) => {
 
     let { classifier } = req.body;
 
-    let [res] = await database.getLabels();
-    let labels = res.map(e => e.label);
+    let [labelResult] = await database.getLabels();
+    let labels = labelResult.map(e => e.label);
 
     let classificationResult = await classification.classify(classifier);
     let confusionMatrix = await stats.confusionMatrix(classificationResult);

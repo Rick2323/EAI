@@ -103,8 +103,9 @@ let fMeasure = async (confusionMatrix, prec, rec) => {
     let precisions = (prec !== undefined && this.prec !== 0) ? prec : precision(confusionMatrix);
     let recalls = (rec !== undefined && this.rec !== 0) ? rec : recall(confusionMatrix);
     let fscores = [];
-    for(let i =0; i<confusionMatrix.matrix.length; i++){
-        
+    for (let i = 0; i < confusionMatrix.matrix.length; i++) {
+        let fscore = 2 * ((precisions[i] * recalls[0]) / (precisions[0] + recalls[0]));
+        fscores.push({ class: i + 1, fscores });
     }
     return fscore;
 };
