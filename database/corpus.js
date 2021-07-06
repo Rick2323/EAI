@@ -65,7 +65,7 @@ module.exports = (connection) => {
         },
         getKBest: (ngram, metric, label, k) => {
             let rankingMetric = metric;
-            if (metric === 'binaryValue') metric = 'binary'
+            // if (metric === 'binaryValue') metric = 'binary'
 
             let query = `SELECT 
                     id,
